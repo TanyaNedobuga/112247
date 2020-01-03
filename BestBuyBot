@@ -1,5 +1,68 @@
 [
     {
+        "id": "411915fe.5cbdcc",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 170,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "213a4157.57ad9e",
+        "type": "telegram receiver",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "bot": "25353ee6.933a52",
+        "saveDataDir": "",
+        "x": 110,
+        "y": 240,
+        "wires": [
+            [
+                "411915fe.5cbdcc"
+            ],
+            [
+                "3ff452fe.423dde"
+            ]
+        ]
+    },
+    {
+        "id": "2ca25899.d5d5f8",
+        "type": "telegram sender",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "bot": "25353ee6.933a52",
+        "x": 670,
+        "y": 240,
+        "wires": [
+            [
+                "e6e6d9d7.16a6d8",
+                "8608e653.879fd8"
+            ]
+        ]
+    },
+    {
+        "id": "e6e6d9d7.16a6d8",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 730,
+        "y": 160,
+        "wires": []
+    },
+    {
         "id": "8161d096.c907b",
         "type": "function",
         "z": "cb1f6249.77885",
@@ -15,5 +78,255 @@
                 "77ccb9bc.ed4548"
             ]
         ]
+    },
+    {
+        "id": "5f6dda72.7653c4",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1070,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "44823735.d82348",
+        "type": "watson-conversation-v1",
+        "z": "cb1f6249.77885",
+        "name": "BestBuy-Assistant",
+        "workspaceid": "855744f8-68ad-4e00-b5c5-a5c3977c55b3",
+        "multiuser": true,
+        "context": true,
+        "empty-payload": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://gateway.watsonplatform.net/assistant/api",
+        "timeout": "",
+        "optout-learning": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "a55ddb27.d43978",
+                "72633cd3.a755a4"
+            ]
+        ]
+    },
+    {
+        "id": "72633cd3.a755a4",
+        "type": "function",
+        "z": "cb1f6249.77885",
+        "name": "prepare2",
+        "func": "var outputMsg = \"\";\n\tif(msg.payload.output.text) {\n    \t\tfor(i=0;i<msg.payload.output.text.length;i++){\n        \t\t\toutputMsg += msg.payload.output.text[i] +\"\\n\"\n    \t\t}\n\t}\nmsg.payload = {\n  \tchatId : msg.chatId,\n  \ttype : \"message\",\n  \tcontent : outputMsg\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 320,
+        "wires": [
+            [
+                "2ca25899.d5d5f8",
+                "960a369b.976948"
+            ]
+        ]
+    },
+    {
+        "id": "a55ddb27.d43978",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 430,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e468b066.c80f9",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 230,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "3ff452fe.423dde",
+        "type": "function",
+        "z": "cb1f6249.77885",
+        "name": "prepare1",
+        "func": "msg.chatId = msg.payload.chatId;\nmsg.user = msg.payload.chatId;\nmsg.payload = msg.payload.content;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 200,
+        "y": 320,
+        "wires": [
+            [
+                "44823735.d82348",
+                "e468b066.c80f9"
+            ]
+        ]
+    },
+    {
+        "id": "960a369b.976948",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 570,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "77ccb9bc.ed4548",
+        "type": "telegram sender",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "bot": "25353ee6.933a52",
+        "x": 1250,
+        "y": 260,
+        "wires": [
+            [
+                "ce822e5e.bb20d"
+            ]
+        ]
+    },
+    {
+        "id": "ce822e5e.bb20d",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1350,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "610c4bb1.23f534",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 990,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "8608e653.879fd8",
+        "type": "switch",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "property": "payload.content.text",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "It was a pleasure talking to you.",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 850,
+        "y": 260,
+        "wires": [
+            [
+                "610c4bb1.23f534"
+            ],
+            [
+                "8161d096.c907b"
+            ]
+        ]
+    },
+    {
+        "id": "fccb0637.a2e5d8",
+        "type": "http request",
+        "z": "cb1f6249.77885",
+        "name": "categories",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": false,
+        "url": "https://api.bestbuy.com/v1/categories(id=abcat*)?apiKey=65c9MynyHAXvqIBCAnHTWEjP&show=id,name,url&format=json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 770,
+        "y": 460,
+        "wires": [
+            [
+                "c7853f7a.c63f4"
+            ]
+        ]
+    },
+    {
+        "id": "c7853f7a.c63f4",
+        "type": "debug",
+        "z": "cb1f6249.77885",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 850,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "25353ee6.933a52",
+        "type": "telegram bot",
+        "z": "",
+        "botname": "Nedobuga_BestBuy_Bot",
+        "usernames": "tanya_nedobuga",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "10",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "verboselogging": false
     }
 ]
